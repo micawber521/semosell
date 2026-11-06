@@ -1,6 +1,6 @@
 import json, sys, math
 src, out = sys.argv[1], sys.argv[2]
-SEMO = {"Pemiscot","Dunklin","New Madrid","Mississippi","Scott","Stoddard","Cape Girardeau","Bollinger","Perry"}
+SEMO = {"Pemiscot","Dunklin","New Madrid","Mississippi","Scott","Stoddard","Cape Girardeau","Bollinger","Perry","Butler","Wayne","Madison","Iron","Reynolds","Carter","Ripley","Oregon","Shannon"}
 d = json.load(open(src))
 mo = [f for f in d["features"] if f["id"].startswith("29")]
 names = {f["properties"]["NAME"] for f in mo}

@@ -10,7 +10,7 @@ This repo is PUBLIC: never commit an email address, token or key.
 - `wrangler.json`: deploy config; custom domains semosell.com + www
 - `build_logo.py`: regenerates `public/logo.svg` (Missouri in black, SEMO counties in green) from a county GeoJSON:
   `python3 build_logo.py counties.json public/logo.svg`
-  Counties: Pemiscot, Dunklin, New Madrid, Mississippi, Scott, Stoddard, Cape Girardeau, Bollinger, Perry.
+  Counties (18): Pemiscot, Dunklin, New Madrid, Mississippi, Scott, Stoddard, Cape Girardeau, Bollinger, Perry, Butler, Wayne, Madison, Iron, Reynolds, Carter, Ripley, Oregon, Shannon.
   Source data: plotly/datasets geojson-counties-fips.json (US Census derived).
 
 ## Worker secrets (Cloudflare dashboard, Worker > Settings > Variables and Secrets)
