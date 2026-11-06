@@ -1,0 +1,7 @@
+{
+  "name": "semosell",
+  "private": true,
+  "scripts": {
+    "build": "echo 'static site in public/, nothing to build'"
+  }
+}
