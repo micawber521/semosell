@@ -1,0 +1,11 @@
+{
+  "name": "semosell",
+  "compatibility_date": "2025-04-01",
+  "assets": {
+    "directory": "./public"
+  },
+  "routes": [
+    { "pattern": "semosell.com", "custom_domain": true },
+    { "pattern": "www.semosell.com", "custom_domain": true }
+  ]
+}
