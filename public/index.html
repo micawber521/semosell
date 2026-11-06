@@ -25,20 +25,6 @@
   <img src="logo.svg" alt="Map of Missouri with the Southeast Missouri region in green">
   <h1>SEMO <span>Sell</span>, LLC</h1>
   <p>Southeast Missouri. New site coming soon.</p>
-  <p id="contact"><button type="button" id="reveal">Show email</button></p>
-  <script>
-    document.getElementById("reveal").addEventListener("click", async (e) => {
-      const btn = e.currentTarget;
-      try {
-        const r = await fetch("/api/contact", { method: "POST" });
-        if (!r.ok) throw 0;
-        const { email } = await r.json();
-        const a = document.createElement("a");
-        a.href = "mailto:" + email; a.textContent = email;
-        btn.replaceWith(a);
-      } catch { btn.textContent = "Unavailable, try again later"; }
-    });
-  </script>
   <footer>&copy; 2026 SEMO Sell, LLC</footer>
 </body>
 </html>
