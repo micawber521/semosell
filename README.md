@@ -3,7 +3,7 @@
 Placeholder site for SEMO Sell, LLC (holding company for CSU Sports Cards, 3totes, etc.).
 
 - `public/`: static site
-- `worker.js`: serves `public/` and injects the contact email from the `CONTACT_EMAIL` Worker secret (set in the Cloudflare dashboard; never commit it, this repo is public)
+- `worker.js`: serves `public/`; contact email (Worker secret `CONTACT_EMAIL`) is click-to-reveal via POST /api/contact, never in the HTML (set in the Cloudflare dashboard; never commit it, this repo is public)
 - `wrangler.json`: deploy config; custom domains semosell.com + www
 - `build_logo.py`: regenerates `public/logo.svg` (Missouri in black, SEMO counties in green) from a county GeoJSON:
   `python3 build_logo.py counties.json public/logo.svg`
