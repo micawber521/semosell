@@ -6,6 +6,8 @@
 //   CONTACT_EMAIL        where submissions are delivered
 //   SMTP_USER            Proton custom-domain address the token belongs to (the sender)
 //   SMTP_TOKEN           Proton SMTP token for SMTP_USER
+//   SMTP_SERVER          optional, default smtp.protonmail.ch
+//   SMTP_PORT            optional, default 587 (STARTTLS); 465 = implicit TLS
 //   TURNSTILE_SITE_KEY   optional: enables Cloudflare Turnstile anti-spam
 //   TURNSTILE_SECRET     optional: required if TURNSTILE_SITE_KEY is set
 import { connect } from "cloudflare:sockets";
@@ -148,16 +150,21 @@ class Smtp {
 
 async function sendMail(env, fields) {
   const user = env.SMTP_USER.trim();
-  const socket = connect({ hostname: "smtp.protonmail.ch", port: 587 }, { secureTransport: "starttls" });
+  const hostname = (env.SMTP_SERVER || "smtp.protonmail.ch").trim();
+  const port = Number((env.SMTP_PORT || "587").trim()) || 587;
+  const implicitTls = port === 465;
+  const socket = connect({ hostname, port }, { secureTransport: implicitTls ? "on" : "starttls" });
   const s = new Smtp(socket);
   try {
     await s.read(220);
     await s.cmd("EHLO semosell.com", 250);
-    await s.cmd("STARTTLS", 220);
-    s.reader.releaseLock();
-    s.writer.releaseLock();
-    s.attach(socket.startTls());
-    await s.cmd("EHLO semosell.com", 250);
+    if (!implicitTls) {
+      await s.cmd("STARTTLS", 220);
+      s.reader.releaseLock();
+      s.writer.releaseLock();
+      s.attach(socket.startTls());
+      await s.cmd("EHLO semosell.com", 250);
+    }
     await s.cmd("AUTH PLAIN " + b64(`\u0000${user}\u0000${env.SMTP_TOKEN.trim()}`), 235);
     await s.cmd(`MAIL FROM:<${user}>`, 250);
     await s.cmd(`RCPT TO:<${env.CONTACT_EMAIL.trim()}>`, 250);

@@ -19,6 +19,8 @@ This repo is PUBLIC: never commit an email address, token or key.
 | `CONTACT_EMAIL` | where submissions are delivered |
 | `SMTP_USER` | Proton custom-domain address the SMTP token belongs to (the sender) |
 | `SMTP_TOKEN` | Proton SMTP token (Proton > Settings > IMAP/SMTP > SMTP tokens) |
+| `SMTP_SERVER` | optional, default smtp.protonmail.ch |
+| `SMTP_PORT` | optional, default 587 (STARTTLS); 465 = implicit TLS |
 | `TURNSTILE_SITE_KEY` | optional, enables Cloudflare Turnstile anti-spam |
 | `TURNSTILE_SECRET` | required with `TURNSTILE_SITE_KEY` |
 
