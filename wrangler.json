@@ -1,8 +1,11 @@
 {
   "name": "semosell",
   "compatibility_date": "2025-04-01",
+  "main": "./worker.js",
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
   },
   "routes": [
     { "pattern": "semosell.com", "custom_domain": true },
