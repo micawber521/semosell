@@ -16,8 +16,13 @@
   h1 { font-size:clamp(2rem, 6vw, 3rem); letter-spacing:-0.02em; }
   h1 span { color:var(--green); }
   p { color:var(--muted); margin-top:10px; font-size:1.05rem; }
-  form { width:min(440px, 100%); margin-top:36px; display:grid; gap:12px; text-align:left; }
-  form h2 { font-size:1.1rem; text-align:center; }
+  details { width:min(440px, 100%); margin-top:32px; }
+  summary { list-style:none; display:inline-block; cursor:pointer; font-weight:600; color:var(--green);
+            padding:9px 22px; border:1.5px solid var(--green); border-radius:999px; }
+  summary::-webkit-details-marker { display:none; }
+  summary:hover, details[open] summary { background:var(--green); color:#fff; }
+  summary:focus-visible { outline:2px solid var(--green); outline-offset:2px; }
+  form { margin-top:20px; display:grid; gap:12px; text-align:left; }
   label { font-size:.9rem; color:var(--muted); display:grid; gap:4px; }
   input, textarea { font:inherit; padding:10px 12px; border:1px solid #ccc; border-radius:8px; background:#fff; color:var(--ink); width:100%; }
   textarea { min-height:130px; resize:vertical; }
@@ -34,8 +39,9 @@
   <img src="logo.svg" alt="Map of Missouri with the Southeast Missouri region in green">
   <h1>SEMO <span>Sell</span>, LLC</h1>
   <p>Southeast Missouri. New site coming soon.</p>
-  <form id="contact" method="post" action="/api/contact">
-    <h2>Contact us</h2>
+  <details id="contact">
+  <summary>Contact us</summary>
+  <form id="contact-form" method="post" action="/api/contact">
     <label>Name <input name="name" maxlength="100" autocomplete="name" required></label>
     <label>Your email <input name="email" type="email" maxlength="200" autocomplete="email" required></label>
     <label>Message <textarea name="message" maxlength="5000" required></textarea></label>
@@ -44,8 +50,9 @@
     <button type="submit">Send</button>
     <p id="status" role="status"></p>
   </form>
+  </details>
   <script>
-    const f = document.getElementById("contact");
+    const f = document.getElementById("contact-form");
     if (f) f.addEventListener("submit", async (e) => {
       e.preventDefault();
       const btn = f.querySelector("button"), st = document.getElementById("status");
