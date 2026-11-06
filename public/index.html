@@ -16,8 +16,17 @@
   h1 { font-size:clamp(2rem, 6vw, 3rem); letter-spacing:-0.02em; }
   h1 span { color:var(--green); }
   p { color:var(--muted); margin-top:10px; font-size:1.05rem; }
-  button { font:inherit; color:var(--green); background:none; border:0; border-bottom:1px solid currentColor; cursor:pointer; padding:0; }
-  a { color:var(--green); text-decoration:none; border-bottom:1px solid currentColor; }
+  form { width:min(440px, 100%); margin-top:36px; display:grid; gap:12px; text-align:left; }
+  form h2 { font-size:1.1rem; text-align:center; }
+  label { font-size:.9rem; color:var(--muted); display:grid; gap:4px; }
+  input, textarea { font:inherit; padding:10px 12px; border:1px solid #ccc; border-radius:8px; background:#fff; color:var(--ink); width:100%; }
+  textarea { min-height:130px; resize:vertical; }
+  input:focus, textarea:focus { outline:2px solid var(--green); outline-offset:1px; border-color:transparent; }
+  form button { font:inherit; font-weight:600; padding:11px; border:0; border-radius:8px; background:var(--green); color:#fff; cursor:pointer; }
+  form button:disabled { opacity:.6; cursor:default; }
+  .hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+  #status { min-height:1.4em; text-align:center; font-size:.95rem; }
+  #status.err { color:#b3261e; }
   footer { margin-top:48px; font-size:.85rem; color:var(--muted); }
 </style>
 </head>
@@ -25,6 +34,32 @@
   <img src="logo.svg" alt="Map of Missouri with the Southeast Missouri region in green">
   <h1>SEMO <span>Sell</span>, LLC</h1>
   <p>Southeast Missouri. New site coming soon.</p>
+  <form id="contact" method="post" action="/api/contact">
+    <h2>Contact us</h2>
+    <label>Name <input name="name" maxlength="100" autocomplete="name" required></label>
+    <label>Your email <input name="email" type="email" maxlength="200" autocomplete="email" required></label>
+    <label>Message <textarea name="message" maxlength="5000" required></textarea></label>
+    <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+    <div id="turnstile" class="cf-turnstile"></div>
+    <button type="submit">Send</button>
+    <p id="status" role="status"></p>
+  </form>
+  <script>
+    const f = document.getElementById("contact");
+    if (f) f.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = f.querySelector("button"), st = document.getElementById("status");
+      btn.disabled = true; st.className = ""; st.textContent = "Sending...";
+      try {
+        const r = await fetch("/api/contact", { method: "POST", body: new FormData(f) });
+        const j = await r.json();
+        st.textContent = j.msg; st.className = j.ok ? "" : "err";
+        if (j.ok) f.reset();
+      } catch { st.textContent = "Sorry, something went wrong. Please try again later."; st.className = "err"; }
+      btn.disabled = false;
+      if (window.turnstile) turnstile.reset();
+    });
+  </script>
   <footer>&copy; 2026 SEMO Sell, LLC</footer>
 </body>
 </html>
